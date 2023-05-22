@@ -3,7 +3,7 @@ package ru.netology.pages;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
-import ru.netology.data.UserData;
+import ru.netology.data.DataHelper;
 
 
 public class LoginPage {
@@ -11,9 +11,9 @@ public class LoginPage {
     private final SelenideElement passwordInput = $("span[data-test-id='password'] input");
     private final SelenideElement okButton = $("button[data-test-id='action-login']");
 
-    public VerificationPage login(UserData user) {
-        loginInput.setValue(user.getUserLogin());
-        passwordInput.setValue(user.getUserPassword());
+    public VerificationPage validlogin(DataHelper.AuthInfo info) {
+        loginInput.setValue(info.getLogin());
+        passwordInput.setValue(info.getPassword());
         okButton.click();
         return new VerificationPage();
     }

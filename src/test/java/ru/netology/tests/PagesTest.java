@@ -1,9 +1,8 @@
-package ru.netology.Tests;
+package ru.netology.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.CardData;
-import ru.netology.data.UserData;
 import ru.netology.pages.DashboardPage;
 import ru.netology.pages.LoginPage;
 

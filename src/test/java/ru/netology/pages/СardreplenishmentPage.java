@@ -2,7 +2,7 @@ package ru.netology.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
-import ru.netology.data.CardData;
+import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -13,14 +13,14 @@ public class СardreplenishmentPage {
     private final SelenideElement escapeButton = $("button[data-test-id='action-cancel']");
     private final SelenideElement errorNotification = $("div[class='notification__content']");
 
-    private void inputCardInfoAndAmount(CardData card, int amount) {
+    private void inputCardInfoAndAmount(DataHelper card, int amount) {
         amountInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
         amountInput.setValue(String.valueOf(amount));
         fromCardNumberInput.sendKeys(Keys.LEFT_SHIFT, Keys.HOME, Keys.BACK_SPACE);
-        fromCardNumberInput.setValue(card.getCardNumber());
+        fromCardNumberInput.setValue(card.toString());
         button.click();
     }
-    public DashboardPage doReplenishment(CardData card, int amount) {
+    public DashboardPage doReplenishment(DataHelper card, int amount) {
         inputCardInfoAndAmount(card, amount);
 
         return new DashboardPage();

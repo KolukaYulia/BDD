@@ -3,12 +3,15 @@ package ru.netology.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
-import ru.netology.data.CardData;
 
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.$$x;
+import ru.netology.data.DataHelper;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.impl.Html.text;
 
 public class DashboardPage {
+    private SelenideElement heading = $("[data-test-id=dashboard]");
     private ElementsCollection cards = $$(".list__item div");
     private ElementsCollection cardsList = $$x("//ul[contains(@class,'list')]//div[@data-test-id]");
     private final String balanceStart = "баланс: ";
@@ -16,25 +19,14 @@ public class DashboardPage {
     
 
     public DashboardPage() {
+        heading.shouldBe(visible);
 
     }
-    
 
-    public SelenideElement findCardInList(CardData card) {
-        String CardNumber = card.getCardNumber();
-        for (SelenideElement element : cardsList) {
-            if (element.text().contains(CardNumber)) {
-                return element;
-            }
-        }
-        return null;
-    }
-
-    public int getCardBalance(CardData card) {
-        val text = findCardInList(card).text();
+    public int getFirstCardBalance() {
+        val text = cards.first().text();
         return extractBalance(text);
     }
-
 
     private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
@@ -42,14 +34,20 @@ public class DashboardPage {
         val value = text.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
+    
 
-    public int writeBalance(CardData card) {
-        int balance = getCardBalance(card);
-        card.setCardAmount(balance);
-        return balance;
+
+    public int getCardBalance(String id) {
+
+        return extractBalance(text);
     }
 
 
-    public void doReplenishment(CardData validUser1Card2, int transactionAmount) {
+
+
+
+
+
+    public void doReplenishment(DataHelper validUser1Card2, int transactionAmount) {
     }
 }
