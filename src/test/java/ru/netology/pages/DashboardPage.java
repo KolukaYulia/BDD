@@ -2,13 +2,13 @@ package ru.netology.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import static com.codeborne.selenide.Condition.text;
 import lombok.val;
 
 import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.impl.Html.text;
 
 public class DashboardPage {
     private SelenideElement heading = $("[data-test-id=dashboard]");
@@ -23,10 +23,11 @@ public class DashboardPage {
 
     }
 
-    public int getFirstCardBalance() {
-        val text = cards.first().text();
+    public int getCardBalance(DataHelper.CardInfo cardInfo) {
+        var text = cards.findBy(text(cardInfo.getCardNumber().substring(12, 16))).getText();
         return extractBalance(text);
     }
+
 
     private int extractBalance(String text) {
         val start = text.indexOf(balanceStart);
@@ -34,20 +35,10 @@ public class DashboardPage {
         val value = text.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
-    
 
-
-    public int getCardBalance(String id) {
-
-        return extractBalance(text);
+    public СardTransferPage selectCardToTransfer(DataHelper.CardInfo cardInfo) {
+        cards.findBy(text(cardInfo.getCardNumber().substring(12, 16))).$("button").click();
+        return new СardTransferPage();
     }
 
-
-
-
-
-
-
-    public void doReplenishment(DataHelper validUser1Card2, int transactionAmount) {
-    }
 }
