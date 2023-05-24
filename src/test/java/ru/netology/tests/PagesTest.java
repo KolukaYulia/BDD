@@ -4,9 +4,12 @@ package ru.netology.tests;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 
+import ru.netology.pages.DashboardPage;
 import ru.netology.pages.LoginPage;
 
+
 import static com.codeborne.selenide.Selenide.open;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataHelper.getFirstCardInfo;
 import static ru.netology.data.DataHelper.getSecondCardInfo;
@@ -61,14 +64,13 @@ public class PagesTest {
         var firstCardInfo = getSecondCardInfo();
         var secondCardInfo = getFirstCardInfo();
         int amount = 100000;
-        var expectedBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo) - amount;
-        var expectedBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo) + amount;
         var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
-        dashboardPage = transferPage.doTransfer(String.valueOf(amount), firstCardInfo);
-        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
-        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
-        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+        dashboardPage = transferPage.doTransferIncorrectAmount(String.valueOf(amount), firstCardInfo);
+        var expectedResult = transferPage.getErrorMessage();
+        var actualResult = dashboardPage.getCardBalance(firstCardInfo);
+
+        assertEquals(expectedResult, actualResult);
+
     }
     @Test
     void shouldTransferNoAmount() {
