@@ -38,11 +38,11 @@ public class СardTransferPage {
         return new DashboardPage();
     }
 
-    public DashboardPage getErrorMessage () {
+    public void getErrorMessage () {
         errorMessage.shouldBe(visible);
 
 
-        return null;
+
     }
 
 

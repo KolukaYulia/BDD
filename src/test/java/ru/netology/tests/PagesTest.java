@@ -1,6 +1,7 @@
 package ru.netology.tests;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 
@@ -14,7 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataHelper.getFirstCardInfo;
 import static ru.netology.data.DataHelper.getSecondCardInfo;
 
+
 public class PagesTest {
+
     @Test
     void shouldTransferFromFirstToSecond() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
@@ -66,10 +69,8 @@ public class PagesTest {
         int amount = 100000;
         var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
         dashboardPage = transferPage.doTransferIncorrectAmount(String.valueOf(amount), firstCardInfo);
-        var expectedResult = transferPage.getErrorMessage();
-        var actualResult = dashboardPage.getCardBalance(firstCardInfo);
+        transferPage.getErrorMessage();
 
-        assertEquals(expectedResult, actualResult);
 
     }
     @Test
@@ -82,14 +83,9 @@ public class PagesTest {
         var firstCardInfo = getSecondCardInfo();
         var secondCardInfo = getFirstCardInfo();
         int amount = 0;
-        var expectedBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo) - amount;
-        var expectedBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo) + amount;
         var transferPage = dashboardPage.selectCardToTransfer(secondCardInfo);
         dashboardPage = transferPage.doTransfer(String.valueOf(amount), firstCardInfo);
-        var actualBalanceFirstCard = dashboardPage.getCardBalance(firstCardInfo);
-        var actualBalanceSecondCard = dashboardPage.getCardBalance(secondCardInfo);
-        assertEquals(expectedBalanceFirstCard, actualBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
+        transferPage.getErrorMessage();
     }
 
 }
